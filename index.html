@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>OpenLayers Example</title>
+	</head>
+	<body>		
+	<h1>2nd example</h1>
+		<div id="demoMap2" style="height:500px;width:500px;"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.11/OpenLayers.js"></script>
+		<script>		
+			/*map = new OpenLayers.Map("demoMap2");
+			var mapnik         = new OpenLayers.Layer.OSM();
+			
+			var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+			var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+			var position       = new OpenLayers.LonLat(2.25,48.9).transform( fromProjection, toProjection);
+			var position2      = new OpenLayers.LonLat(2.19,48.8).transform( fromProjection, toProjection);
+			var zoom           = 8; 
+			map.addLayer(mapnik);
+			
+			var markers = new OpenLayers.Layer.Markers( "Markers" );
+			map.addLayer(markers);
+			markers.addMarker(new OpenLayers.Marker(position));
+			var markers2 = new OpenLayers.Layer.Markers( "Markers2" );
+			map.addLayer(markers2);
+			markers2.addMarker(new OpenLayers.Marker(position2));
+			
+			map.setCenter(position, zoom);	*/	
+		</script>
+	<script>
+		let adresse = "12 place Des Etats-Unis";
+        let match = adresse.match(/(\d+)/);
+        let street_num = match[1];
+        let street_type = (adresse.match(/([a-zA-Z]+)/)[0]).toLowerCase();
+        for (var i = 0; i < adresse.length; i++) {
+            if (adresse[i].match(/[A-Z]/) != null) {
+                let street_name = adresse.substring(i, adresse.length);
+                fetch("https://nominatim.openstreetmap.org/search?q=12+Des%20Etats-Unis+place+%20Montrouge&format=json&polygon=1&addressdetails=1").then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    let lat = parseFloat(data[0]['lat']);
+                    let long = parseFloat(data[0]['lon']);
+                    map = new OpenLayers.Map("demoMap2");
+                    var mapnik = new OpenLayers.Layer.OSM();
+
+                    var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
+                    var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+                    var position = new OpenLayers.LonLat(long, lat).transform(fromProjection, toProjection);
+                    var zoom = 10;
+                    map.addLayer(mapnik);
+                    var markers = new OpenLayers.Layer.Markers("Markers");
+                    map.addLayer(markers);
+                    markers.addMarker(new OpenLayers.Marker(position));
+                    map.setCenter(position, zoom);
+                });
+                break;
+            }
+        }
+	</script>			
+
+	</body>
+</html>
